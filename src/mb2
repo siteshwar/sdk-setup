@@ -29,10 +29,12 @@
 short_usage() {
     cat <<EOF
 usage: $ME [-t <target>] [-s <specfile>] [-d <device>] [-p <projectdir>]
-           build <-d> [<args>] | qmake [<args>] | make [<args>] | ssh <args>
+           build [-d] [-j <n>] [<args>] | qmake [<args>] | make [<args>] | ssh <args>
            install [<args>] | rpm [<args>] | deploy <args> | run <args>
        $ME --help
 EOF
+    # exit if any argument is given
+    [ -n "$1" ] && exit 1
 }
 
 usage() {
@@ -52,9 +54,11 @@ usage() {
   $ME is aware of spectacle and will update the spec file if there is
   an obvious yaml file which is newer.
 
-  $ME build <-d> [<args>]
+  $ME build [-d] [-j <n>] [<args>]
                      : runs rpmbuild for the given spec file in the
                        given sb2 target. Produces an rpm package.
+                     : -d     enable debug build
+                     : -j <n> use only 'n' CPUs to build
                      : can use -s -t -p
 
   $ME qmake [<args>] : runs qmake in the 'build' phase
@@ -223,6 +227,7 @@ run_build() {
 	cd_to_spec_setup_dir;
 	eval sb2 -t $target rpmbuild --build-in-place \
 	    $BUILD_DEBUG \
+	    --define \"_smp_mflags -j$BUILD_JOBS\" \
 	    --define \"_rpmdir $_basedir/RPMS \" \
 	    --define \"_sourcedir $_basedir/rpm \" \
 	    --define \"_rpmfilename %%{name}-%%{version}-%%{release}.%%{arch}.rpm \" \
@@ -473,8 +478,7 @@ case $1 in
 	fi
         ;;
     *)
-	short_usage
-	exit 1
+	short_usage quit
 	;;
 esac
 
