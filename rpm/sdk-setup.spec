@@ -202,7 +202,8 @@ if ! rpm --quiet -q ca-certificates && [ -d /%{_sysconfdir}/ssl/certs ] ; then e
 %systemd_post sdk-enginelan.service
 %systemd_post sdk-refresh.service
 %systemd_post sdk-refresh.timer
-%systemd_post resize-rootfs.service
+
+# %systemd_post resize-rootfs.service
 # this could be mounted read-only so to avoid a
 # cpio: chmod failed - Read-only file system
 if [ $1 -eq 1 ] ; then
@@ -241,7 +242,7 @@ fi
 %{_unitdir}/etc-ssh-authorized_keys.mount
 %{_unitdir}/sdk-refresh.service
 %{_unitdir}/sdk-refresh.timer
-%{_unitdir}/resize-rootfs.service
+#%{_unitdir}/resize-rootfs.service
 %config %{_sysconfdir}/systemd/system/default.target
 %config %{_sysconfdir}/ssh/ssh-env.conf
 %config %{_sysconfdir}/ssh/sshd_config_engine
