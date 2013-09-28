@@ -3,7 +3,9 @@
 # This is a helper script for the Mer SDK to manage sb2 target and
 # toolchain installation
 
-sdk_user=mersdk
+# If sdk_user is not set then set it to user; it's preserved and
+# passed back in by the su'ed exec $0
+: ${sdk_user:=$USER}
 mer_targets=/srv/mer/targets
 host_targets=/host_targets
 sbox2dir=/home/$sdk_user/.scratchbox2
@@ -50,7 +52,7 @@ EOF
 }
 
 if [[ $EUID -ne 0 ]]; then
-    exec sudo $0 "$@"
+    exec sudo sdk_user=$USER $0 "$@"
     echo "$0 must be run as root and sudo failed; exiting"
     exit 1
 fi
