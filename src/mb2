@@ -29,7 +29,7 @@
 usage() {
     cat <<EOF
 usage: $ME [-t <target>] [-s <specfile>] [-d <device>] [-p <projectdir>]
-           qmake [<args>] | make [<args>] | install [<args>] | rpm [<args>]
+           [qmake | make | install | rpm | installdeps] [<args>]
 
   Executes a subset of build commands in the context of an rpmbuild.
   Typically called from QtCreator to perform qmake/make phases of a project.
@@ -65,6 +65,10 @@ usage: $ME [-t <target>] [-s <specfile>] [-d <device>] [-p <projectdir>]
                      : can use -s -t -p
   $ME rpm [<args>] : runs the install & rpm-creation phases
                      : can use -s -t -p
+
+  $ME installdeps [<xargs>] : refreshes the zypper cache of the target and
+                              if required installs build-dependencies
+                            : can use -s -t
 
 
   -t | --target      : specify the sb2 target to use
@@ -176,6 +180,12 @@ ssh_as() {
     local key="$(dirname $DEVICES_XML)/${device_sshkeypath}/$user"
     [[ -f $key ]] || fatal "No key for user $user on $device_name given in devices.xml"
     ssh -F /etc/ssh/ssh_config.sdk -i $key -l $user $device_ip $@
+}
+
+run_installdeps() {
+    # Refresh repos before installing dependencies
+    sb2 -t "$target" -m sdk-install -R zypper --non-interactive ref
+    verify_target_dependencies
 }
 
 run_build() {
@@ -316,7 +326,7 @@ while [[ $1 ]]; do
 	    try_to_make_spec $spec
 	    [[ -f $spec ]] || fatal "'$spec' doesn't exist (and couldn't be made from a yaml)"
 	    ;;
-	install | rpm | deploy | build )
+	install | rpm | deploy | build | installdeps )
 	    needspec=1;
 	    break 2 ;;
 	qmake | make | run | ssh )
@@ -387,7 +397,7 @@ case $1 in
 	fi
         shift
         ;;
-    build )
+    build | installdeps )
 	cmd=run_$1; shift
 	BUILD_DEBUG='--define "debug_package %{nil} "'
 	case "$1" in
