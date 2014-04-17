@@ -308,7 +308,7 @@ run_build() {
     (
 	cd_to_spec_setup_dir;
 	rm -f "$_basedir/RPMS/"*.rpm;
-	eval sb2 -t $OPT_TARGET rpmbuild --build-in-place \
+	eval sb2 -t $OPT_TARGET rpmbuild --build-in-place --target=$build_tgt \
 	    $BUILD_DEBUG \
 	    --define \"_smp_mflags -j$BUILD_JOBS\" \
 	    --define \"_rpmdir $_basedir/RPMS \" \
@@ -339,7 +339,7 @@ run_qmake() {
 	verify_target_dependencies
 	(
 	    cd_to_spec_setup_dir;
-	    eval sb2 -t $OPT_TARGET rpmbuild --build-in-place \
+	    eval sb2 -t $OPT_TARGET rpmbuild --build-in-place --target=$build_tgt \
 		--dobuild \
 		--define \"noecho 1 \" \
 		--define \"qtc_builddir $_basedir \" \
@@ -359,7 +359,7 @@ run_make() {
 	build_tgt=${build_tgt%-gnueabi}
 	(
 	    cd_to_spec_setup_dir;
-	    eval sb2 -t $OPT_TARGET rpmbuild --build-in-place \
+	    eval sb2 -t $OPT_TARGET rpmbuild --build-in-place --target=$build_tgt \
 		--dobuild \
 		--define \"noecho 1 \" \
 		--define \"qtc_builddir $_basedir \" \
@@ -380,7 +380,7 @@ run_install() {
     # Install to buildroot which should be rsync'ed to /opt/sdk/$package on device
     (
 	cd_to_spec_setup_dir;
-	eval sb2 -t $OPT_TARGET rpmbuild --build-in-place \
+	eval sb2 -t $OPT_TARGET rpmbuild --build-in-place --target=$build_tgt \
 	    --define \"noecho 1 \" \
 	    --define \"qtc_builddir $_basedir \" \
 	    --define \"_sourcedir $_basedir/rpm \" \
@@ -407,7 +407,7 @@ run_rpm() {
 	increment_build_number;
 	cd_to_spec_setup_dir;
 	rm -f "$_basedir/RPMS/"*.rpm;
-	eval sb2 -t $OPT_TARGET rpmbuild --build-in-place \
+	eval sb2 -t $OPT_TARGET rpmbuild --build-in-place --target=$build_tgt \
 	    --define \"noecho 1 \" \
 	    --define \"qtc_builddir $_basedir \" \
 	    --define \"_rpmdir $_basedir/RPMS \" \
