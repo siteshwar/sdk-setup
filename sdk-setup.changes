@@ -1,3 +1,50 @@
+* Mon Sep 08 2014 David Greaves <david@dgreaves.com> - 0.64-1
+- Cherry pick changes to mb2 from jolla's fork;
+- [mb2] run rpmspec query in sb2 session
+- [mb2] convert CRLF to LF in spec file before each build step
+- [mb2] set build target correctly to i486
+- [mb2] use _skip_install_processing macro
+- [mb2] refactor deploy to remove duplicated code
+- [mb2] fix cleaning rpms from build directory
+- [mb2] add support for sdk-deploy-rpm
+- [mb2] add .changes file support
+- [mb2] restore accidentally removed --docheck in run_rpm
+- [mb2] incrementing build number was done too late in mb2 build
+- [mb2] disable passing --target option until rpm fix is released
+- [mb2] more minor perf optimizations, add pedantic option
+- [mb2] only use builtin test expression
+- [mb2] avoid piping to processes
+- [mb2] minor performance optimizations
+- [mb2] set target option to rpmbuild
+- [mb2] renamed command line option vars uniformly
+- [mb2] deploy option support outside MerSDK virtual machine
+- [mb2] Only increment build number if -i option is given
+- [mb2] Handle specify errors better
+- [mb2] Handle errors in deploy phase more gracefully
+- [mb2] Increment build release number in spec every time an RPM is built
+- [mb2] More fixes to whitespace in project path problems
+- [mb2] Do not fail if qtc_ macros are missing from spec
+- [mb2] Fix passing whitespace in rpmbuild define arguments
+- [mb2] Allow spaces in device names
+- [mb2] Do deploy as user with --pkcon option
+- [mb2] Clean RPMS directory before creating new rpms
+- [mb2] Improve deploy error handling
+- [mb2] Deploy also using pkcon
+- [mb2] Remove ssu register status check
+- [mb2] Disable ANSI colors from specify output
+- [mb2] Handle directory names with spaces
+- [mb2] Add support for build -j option
+- [mb2] Modify submodule/subtree spec dealings
+- [mb2] deal with submodule/subtree spec files
+- [mb2] Replace grep, sed usage with rpmspec
+- [mb2] Fixup help
+- [mb2] Add support for build -j option
+- [mb2] Add installdeps target to "zypper ref" + install build-deps
+- [mer-sdk-chroot] no longer need an active_chroot_list
+- [mer-sdk-chroot] pass SSH_AGENT_PID and SSH_AUTH_SOCK through to the sdk
+- [mer-sdk-chroot] Document the bind mounts and allow home to be shared - useful for setting up an ubuntu chroot inside the SDK for android building
+- [sdk-manage] Allow sdk-manage to be used by platform sdk
+
 * Tue Sep 03 2013 David Greaves <david@dgreaves.com> - 0.63-1
 - [sb2] Accelerate more binaries in sdk-build(+pp) modes
 - [mb2] Improve XML handling to better support multiple devices
