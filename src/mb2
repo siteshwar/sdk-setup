@@ -32,7 +32,9 @@ short_usage() {
 usage: $ME [-t <target>] [-s <specfile>] [-d <device>] [-p <projectdir>]
            [-f <folder>] [-i] [-P]
            build [-d] [-j <n>] [<args>] | qmake [<args>] | make [<args>] | ssh <args>
-           install [<args>] | rpm [<args>] | deploy <args> | run <args>
+           install [<args>] | installdeps <args> | rpm [<args>] | deploy <args>
+           run <args>
+       $ME --version
        $ME --help
 EOF
     # exit if any argument is given
@@ -83,9 +85,9 @@ usage() {
   $ME install [<args>] : runs the 'install' phase to install to $buildroot
                      : can use -s -t -p
 
-  $ME installdeps [<xargs>] : refreshes the zypper cache of the target and
-                              if required installs build-dependencies
-                            : can use -s -t
+  $ME installdeps [<args>] : refresh the zypper cache of the given target and
+                             if required installs build-dependencies
+                     : can use -s -t -p
 
   $ME rpm [<args>]   : runs the install & rpm-creation phases
                      : can use -s -t -p -i
@@ -213,12 +215,6 @@ ssh_as() {
     ssh -F /etc/ssh/ssh_config.sdk -i "$key" -l $user $device_ip "$@"
 }
 
-run_installdeps() {
-    # Refresh repos before installing dependencies
-    sb2 -t "$target" -m sdk-install -R zypper --non-interactive ref
-    verify_target_dependencies
-}
-
 cd_to_spec_setup_dir() {
     _basedir="$PWD"
 
@@ -287,6 +283,12 @@ fix_arguments() {
 	local tmp_arg=$(printf "'%s' " "${orig_args[${i}]}")
 	fixed_args="$fixed_args $tmp_arg"
     done
+}
+
+run_installdeps() {
+    # Refresh repos before installing dependencies
+    sb2 -t "$target" -m sdk-install -R zypper --non-interactive ref
+    verify_target_dependencies
 }
 
 run_build() {
