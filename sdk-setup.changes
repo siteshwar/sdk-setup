@@ -1,3 +1,8 @@
+* Fri Sep 19 2014 David Greaves <david@dgreaves.com> - 0.65-1
+- [mb2] Workaround bug in rpmbuild : causes MER#849
+- [mer-sdk-chroot] fix passing SSH_AUTH_SOCK
+- [mb2] sync installdeps option with jolla variant
+
 * Mon Sep 08 2014 David Greaves <david@dgreaves.com> - 0.64-1
 - Cherry pick changes to mb2 from jolla's fork;
 - [mb2] run rpmspec query in sb2 session
