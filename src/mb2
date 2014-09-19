@@ -309,11 +309,15 @@ run_build() {
     sed -i "s/\x0D$//g" "$tmp_spec"
 
     local build_tgt=$(sb2 -t $OPT_TARGET gcc -dumpmachine)
-    build_tgt=${build_tgt%-gnueabi}
+    build_tgt="--target=${build_tgt%-gnueabi}"
+    # rpmbuild in Mer releases for Sept 2014 have a bug in rpmbuild
+    # It causss bug https://bugs.merproject.org/show_bug.cgi?id=849
+    # The bug is fixed but not released. When it's released remove this line:
+    build_tgt=""
     (
 	cd_to_spec_setup_dir;
 	rm -f "$_basedir/RPMS/"*.rpm;
-	eval sb2 -t $OPT_TARGET rpmbuild --build-in-place --target=$build_tgt \
+	eval sb2 -t $OPT_TARGET rpmbuild --build-in-place $build_tgt \
 	    $BUILD_DEBUG \
 	    --define \"_smp_mflags -j$BUILD_JOBS\" \
 	    --define \"_rpmdir $_basedir/RPMS \" \
