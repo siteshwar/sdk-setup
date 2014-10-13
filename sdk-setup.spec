@@ -151,6 +151,7 @@ cp src/mb2 %{buildroot}%{_bindir}/
 cp src/qb %{buildroot}%{_bindir}/
 cp src/sdk-manage %{buildroot}%{_bindir}/
 cp src/updateQtCreatorTargets %{buildroot}%{_bindir}/updateQtCreatorTargets
+cp src/wh %{buildroot}%{_bindir}/
 
 mkdir -p %{buildroot}/%{_sysconfdir}/ssh/
 cp ssh_config.sdk  %{buildroot}/%{_sysconfdir}/ssh/
@@ -262,6 +263,7 @@ fi
 %{_bindir}/qb
 %{_bindir}/sdk-manage
 %{_bindir}/updateQtCreatorTargets
+%{_bindir}/wh
 %config %{_sysconfdir}/ssh/ssh_config.sdk
 # >> files sdk-utils
 # << files sdk-utils
