@@ -1,3 +1,6 @@
+* Mon Oct 13 2014 David Greaves <david@dgreaves.com> - 0.66-1
+- [wh] Add a webhook creation script: wh <project> <package> <git repo> [<branch>]
+
 * Fri Sep 19 2014 David Greaves <david@dgreaves.com> - 0.65-1
 - [mb2] Workaround bug in rpmbuild : causes MER#849
 - [mer-sdk-chroot] fix passing SSH_AUTH_SOCK
